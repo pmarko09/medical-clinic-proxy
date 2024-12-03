@@ -1,6 +1,5 @@
 package com.pmarko09.medical_clinic_proxy.model.dto;
 
-import com.pmarko09.medical_clinic_proxy.model.entity.Visit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +20,5 @@ public class PatientDto {
     private String lastName;
     private String phoneNumber;
     private LocalDate birthday;
-    private List<Visit> visits;
+    private List<VisitDto> visits;
 }

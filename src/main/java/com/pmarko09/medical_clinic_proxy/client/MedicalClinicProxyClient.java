@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "medClinicClient", url = "${spring.cloud.openfeign.client.config.medicalClinicProxyClient.url=}")
+@FeignClient(name = "medClinicClient", url = "${spring.cloud.openfeign.client.config.medicalClinicProxyClient.url}")
 public interface MedicalClinicProxyClient {
 
     @GetMapping("/patients/{email}")

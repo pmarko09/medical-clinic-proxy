@@ -1,6 +1,5 @@
 package com.pmarko09.medical_clinic_proxy.controller;
 
-import com.pmarko09.medical_clinic_proxy.model.dto.PatientDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import com.pmarko09.medical_clinic_proxy.service.PatientService;
 import lombok.RequiredArgsConstructor;
