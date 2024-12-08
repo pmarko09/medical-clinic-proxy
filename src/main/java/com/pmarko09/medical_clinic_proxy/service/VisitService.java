@@ -1,6 +1,7 @@
 package com.pmarko09.medical_clinic_proxy.service;
 
 import com.pmarko09.medical_clinic_proxy.client.MedicalClinicProxyClient;
+import com.pmarko09.medical_clinic_proxy.mapper.VisitMapper;
 import com.pmarko09.medical_clinic_proxy.model.dto.AvailableVisitDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +15,12 @@ import java.util.List;
 public class VisitService {
 
     private final MedicalClinicProxyClient medicalClinicProxyClient;
+    private final VisitMapper visitMapper;
 
     public List<AvailableVisitDto> getAvailableAppointments(String specialization, LocalDate date) {
         List<VisitDto> availableVisits = medicalClinicProxyClient.getAvailableAppointments(specialization, date);
-
         return availableVisits.stream()
-                .map(visitDto -> new AvailableVisitDto(
-                        visitDto.getAppointmentStartTime(),
-                        visitDto.getAppointmentFinishTime(),
-                        specialization
-                ))
+                .map(visitDto -> visitMapper.toAvailableVisitDto(visitDto, specialization))
                 .toList();
     }
 

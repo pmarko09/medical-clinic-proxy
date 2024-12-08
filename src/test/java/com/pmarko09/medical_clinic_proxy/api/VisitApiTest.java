@@ -6,15 +6,11 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmarko09.medical_clinic_proxy.model.dto.AvailableVisitDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -54,7 +50,6 @@ public class VisitApiTest {
         wireMockServer.stop();
     }
 
-
     @Test
     void getAvailableAppointments_DataCorrect_AvailableVisitDtoListReturned() throws JsonProcessingException {
         AvailableVisitDto availableVisitDto1 = new AvailableVisitDto();
@@ -69,18 +64,16 @@ public class VisitApiTest {
         LocalDate date = LocalDate.of(2024, 9, 22);
 
         wireMockServer.stubFor(WireMock.get(WireMock.urlEqualTo(
-                        "/appointments/available?specialization=dentist@date=2024-09-22"))
+                        "/appointments/available?specialization=dentist&date=2024-09-22"))
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBody(objectMapper.writeValueAsString(availableVisits))));
 
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8079")
-                .path("/appointments/available")
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8079/appointments/available")
                 .queryParam("specialization", "dentist")
-                .queryParam("date", "2024-09-22")
+                .queryParam("date", date.toString())
                 .toUriString();
-        System.out.println("Generated URL: " + url);
 
         ResponseEntity<AvailableVisitDto[]> response = restTemplate.getForEntity(url, AvailableVisitDto[].class);
         AvailableVisitDto[] result = response.getBody();
@@ -109,7 +102,7 @@ public class VisitApiTest {
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBody(objectMapper.writeValueAsString(visitDtos))));
 
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8079")
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8079/appointments")
                 .queryParam("patientId", "7")
                 .toUriString();
 

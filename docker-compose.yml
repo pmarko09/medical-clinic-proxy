@@ -36,6 +36,9 @@ services:
       - "8085:8085"
     networks:
       - med-app-network
+    environment:
+      BACKEND_HOST: medical-clinic-app
+      BACKEND_PORT: 8080
 
   pgadmin-med:
     image: dpage/pgadmin4

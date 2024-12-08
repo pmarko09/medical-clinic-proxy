@@ -25,7 +25,6 @@ public class DoctorServiceTest {
         this.doctorService = new DoctorService(medicalClinicProxyClient);
     }
 
-
     @Test
     void getAvailableVisitsForDoctor_DataCorrect_ListVisitDtoReturned() {
         VisitDto visitDto1 = new VisitDto(1L,

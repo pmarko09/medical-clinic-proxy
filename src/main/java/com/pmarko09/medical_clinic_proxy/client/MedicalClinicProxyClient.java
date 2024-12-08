@@ -1,10 +1,11 @@
 package com.pmarko09.medical_clinic_proxy.client;
 
-import com.pmarko09.medical_clinic_proxy.configuration.FeignRetryConfig;
+import com.pmarko09.medical_clinic_proxy.config.FeignConfig;
 import com.pmarko09.medical_clinic_proxy.fallback.MedicalClinicProxyClientFallback;
 import com.pmarko09.medical_clinic_proxy.model.dto.PatientIdDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @FeignClient(name = "medClinicClient",
         url = "${spring.cloud.openfeign.client.config.medicalClinicProxyClient.url}",
-        configuration = FeignRetryConfig.class,
+        configuration = FeignConfig.class,
         fallback = MedicalClinicProxyClientFallback.class)
 public interface MedicalClinicProxyClient {
 
@@ -33,5 +34,5 @@ public interface MedicalClinicProxyClient {
     @GetMapping("/appointments/available")
     List<VisitDto> getAvailableAppointments(
             @RequestParam("specialization") String specialization,
-            @RequestParam("date") LocalDate date);
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date);
 }

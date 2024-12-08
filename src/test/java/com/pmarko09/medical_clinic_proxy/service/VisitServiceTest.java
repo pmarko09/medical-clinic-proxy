@@ -1,10 +1,12 @@
 package com.pmarko09.medical_clinic_proxy.service;
 
 import com.pmarko09.medical_clinic_proxy.client.MedicalClinicProxyClient;
+import com.pmarko09.medical_clinic_proxy.mapper.VisitMapper;
 import com.pmarko09.medical_clinic_proxy.model.dto.AvailableVisitDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 
 import java.time.LocalDate;
@@ -19,11 +21,13 @@ public class VisitServiceTest {
 
     MedicalClinicProxyClient medicalClinicProxyClient;
     VisitService visitService;
+    VisitMapper visitMapper;
 
     @BeforeEach
     void setup() {
         this.medicalClinicProxyClient = Mockito.mock(MedicalClinicProxyClient.class);
-        this.visitService = new VisitService(medicalClinicProxyClient);
+        this.visitMapper = Mappers.getMapper(VisitMapper.class);
+        this.visitService = new VisitService(medicalClinicProxyClient, visitMapper);
     }
 
     @Test
@@ -103,4 +107,3 @@ public class VisitServiceTest {
         verify(medicalClinicProxyClient).getVisits(5L);
     }
 }
-

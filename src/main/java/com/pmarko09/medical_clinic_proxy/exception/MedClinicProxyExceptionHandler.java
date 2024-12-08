@@ -57,4 +57,15 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
         );
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(FeignException.Conflict.class)
+    protected ResponseEntity<ErrorMessageDto> handleFeignConflict(FeignException ex) {
+        ErrorMessageDto body = new ErrorMessageDto(
+                HttpStatus.CONFLICT,
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.CONFLICT);
+    }
 }

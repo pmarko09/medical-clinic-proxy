@@ -17,4 +17,3 @@ public class AvailableVisitDto {
     private LocalDateTime appointmentFinishTime;
     private String doctorSpecialization;
 }
-

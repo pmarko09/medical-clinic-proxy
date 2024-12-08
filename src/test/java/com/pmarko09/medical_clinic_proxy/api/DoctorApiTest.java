@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,11 +38,8 @@ public class DoctorApiTest {
     ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setup() {
+    public void setUp() {
         wireMockServer.start();
-        restTemplate = new RestTemplateBuilder()
-                .rootUri("http://localhost:8079")
-                .build();
     }
 
     @AfterEach
@@ -104,5 +100,4 @@ public class DoctorApiTest {
         assertNotNull(result);
         assertEquals(0, result.length);
     }
-
 }

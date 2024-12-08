@@ -37,7 +37,7 @@ public class PatientApiTest {
     ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setup() {
+    public void setUp() {
         wireMockServer.start();
         restTemplate = new RestTemplateBuilder()
                 .rootUri("http://localhost:8079")
@@ -46,6 +46,7 @@ public class PatientApiTest {
 
     @AfterEach
     public void tearDown() {
+        wireMockServer.resetAll();
         wireMockServer.stop();
     }
 
