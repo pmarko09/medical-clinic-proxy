@@ -3,6 +3,7 @@ package com.pmarko09.medical_clinic_proxy.config;
 import feign.Client;
 import feign.RetryableException;
 import feign.Retryer;
+import feign.codec.ErrorDecoder;
 import feign.httpclient.ApacheHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,5 +25,10 @@ public class FeignConfig {
                 System.out.println("Retrying after exception: " + e.getMessage());
             }
         };
+    }
+
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new CustomErrorDecoder();
     }
 }

@@ -5,13 +5,13 @@ import feign.FeignException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(FeignException.BadRequest.class)
@@ -23,6 +23,17 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataNotFoundException.class)
+    protected ResponseEntity<ErrorMessageDto> handlePatientNotFound(DataNotFoundException ex) {
+        ErrorMessageDto body = new ErrorMessageDto(
+                HttpStatus.NOT_FOUND,
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FeignException.NotFound.class)
