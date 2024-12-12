@@ -7,6 +7,7 @@ import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 
 public class CustomErrorDecoder implements ErrorDecoder {
+    private final ErrorDecoder errorDecoder = new ErrorDecoder.Default();
 
     @Override
     public Exception decode(String methodKey, Response response) {
@@ -23,6 +24,6 @@ public class CustomErrorDecoder implements ErrorDecoder {
         if (status == 404) {
             return new DataNotFoundException();
         }
-        return exception;
+        return errorDecoder.decode(methodKey, response);
     }
 }

@@ -42,7 +42,6 @@ public class PatientControllerTest {
         PatientIdDto patientIdDto = new PatientIdDto(10L);
 
         when(patientService.registerForVisit(1L, patientIdDto)).thenReturn(visitDto1);
-
         mockMvc.perform(
                         MockMvcRequestBuilders.patch("/patients/register/1")
                                 .contentType(MediaType.APPLICATION_JSON)

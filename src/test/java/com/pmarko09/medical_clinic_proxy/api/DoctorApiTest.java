@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -54,11 +53,11 @@ public class DoctorApiTest {
         VisitDto visitDto1 = new VisitDto(1L,
                 LocalDateTime.of(2024, 9, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 9, 22, 17, 00, 00),
-                3L, 7L);
+                3L, null);
         VisitDto visitDto2 = new VisitDto(2L,
                 LocalDateTime.of(2024, 10, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 10, 22, 17, 00, 00),
-                3L, 7L);
+                3L, null);
         List<VisitDto> visitDtos = new ArrayList<>(List.of(visitDto1, visitDto2));
 
         wireMockServer.stubFor(WireMock.get("/appointments/doctor/3/available")

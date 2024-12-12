@@ -5,7 +5,6 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,15 +26,9 @@ public class RetryTest {
     @Autowired
     RestTemplate restTemplate;
 
-    @BeforeEach
-    public void setUp() {
-        wireMockServer.start();
-    }
-
     @AfterEach
     public void tearDown() {
         wireMockServer.resetAll();
-        wireMockServer.stop();
     }
 
     @Test
