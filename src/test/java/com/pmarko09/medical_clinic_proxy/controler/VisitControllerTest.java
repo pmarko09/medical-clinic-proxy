@@ -3,6 +3,7 @@ package com.pmarko09.medical_clinic_proxy.controler;
 import com.pmarko09.medical_clinic_proxy.model.dto.AvailableVisitDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import com.pmarko09.medical_clinic_proxy.service.VisitService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Slf4j
 public class VisitControllerTest {
 
     @Autowired
@@ -35,6 +37,7 @@ public class VisitControllerTest {
 
     @Test
     void getAvailableAppointments_DataCorrect_ReturnedStatus200() throws Exception {
+        log.info("Starting test: getAvailableAppointments_DataCorrect_ReturnedStatus200");
         AvailableVisitDto availableVisitDto1 = new AvailableVisitDto(
                 LocalDateTime.of(2024, 9, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 9, 22, 17, 00, 00),
@@ -57,10 +60,12 @@ public class VisitControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].doctorSpecialization").value("DD"))
                 .andExpect(jsonPath("$[1].doctorSpecialization").value("CC"));
+        log.info("Test completed: getAvailableAppointments_DataCorrect_ReturnedStatus200");
     }
 
     @Test
     void getAvailableAppointments_NoData_ReturnedStatus200() throws Exception {
+        log.info("Starting test: getAvailableAppointments_NoData_ReturnedStatus200");
         when(visitService.getAvailableAppointments("DD", LocalDate.of(2024, 9, 22)))
                 .thenReturn(Collections.emptyList());
 
@@ -74,10 +79,12 @@ public class VisitControllerTest {
                 .andExpect(jsonPath("$").isEmpty());
 
         verify(visitService).getAvailableAppointments("DD", LocalDate.of(2024, 9, 22));
+        log.info("Test completed: getAvailableAppointments_NoData_ReturnedStatus200");
     }
 
     @Test
     void getPatientVisits_DataCorrect_ReturnedStatus200() throws Exception {
+        log.info("Starting test: getPatientVisits_DataCorrect_ReturnedStatus200");
         VisitDto visitDto1 = new VisitDto(1L,
                 LocalDateTime.of(2024, 9, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 9, 22, 17, 00, 00),
@@ -106,10 +113,12 @@ public class VisitControllerTest {
                 .andExpect(jsonPath("$[1].appointmentFinishTime").value("2024-10-22T17:00:00"))
                 .andExpect(jsonPath("$[1].doctorId").value(6L))
                 .andExpect(jsonPath("$[1].patientId").value(7L));
+        log.info("Test completed: getPatientVisits_DataCorrect_ReturnedStatus200");
     }
 
     @Test
     void getPatientVisits_NoData_ReturnedStatus200() throws Exception {
+        log.info("Starting test: getPatientVisits_NoData_ReturnedStatus200");
         when(visitService.getPatientVisits(7L))
                 .thenReturn(Collections.emptyList());
 
@@ -122,5 +131,6 @@ public class VisitControllerTest {
                 .andExpect(jsonPath("$").isEmpty());
 
         verify(visitService).getPatientVisits(7L);
+        log.info("Test completed: getPatientVisits_NoData_ReturnedStatus200");
     }
 }

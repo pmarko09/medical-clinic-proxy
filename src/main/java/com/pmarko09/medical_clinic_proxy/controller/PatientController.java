@@ -11,8 +11,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Tag(name = "Patients", description = "Operations related to patients")
 @RestController
 @RequestMapping("/patients")
@@ -31,6 +33,8 @@ public class PatientController {
     @PatchMapping("/register/{visitId}")
     public VisitDto registerForVisit(@Parameter(description = "Visit ID", required = true) @PathVariable Long visitId,
                                      @Parameter(description = "Patient ID", required = true) @RequestBody PatientIdDto patientId) {
+        log.info("Endpoint called: /patients/register/{}", visitId);
+        log.info("Registering patient for available visit, visit ID: {}", visitId);
         return patientService.registerForVisit(visitId, patientId);
     }
 }

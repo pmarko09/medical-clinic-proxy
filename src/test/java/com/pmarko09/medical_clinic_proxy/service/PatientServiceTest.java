@@ -4,6 +4,7 @@ import com.pmarko09.medical_clinic_proxy.client.MedicalClinicProxyClient;
 import com.pmarko09.medical_clinic_proxy.model.dto.PatientIdDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Slf4j
 public class PatientServiceTest {
 
     MedicalClinicProxyClient medicalClinicProxyClient;
@@ -26,6 +28,7 @@ public class PatientServiceTest {
 
     @Test
     void registerForVisit_DataCorrect_VisitDtoReturned() {
+        log.info("Starting test: registerForVisit_DataCorrect_VisitDtoReturned");
         VisitDto visitDto = new VisitDto();
         visitDto.setId(3L);
         visitDto.setAppointmentStartTime(LocalDateTime.of(2025, 04, 10, 12, 00, 00));
@@ -45,10 +48,12 @@ public class PatientServiceTest {
         assertEquals(2L, result.getPatientId());
         assertEquals(4L, result.getDoctorId());
         verify(medicalClinicProxyClient).registerForVisit(3L, patientIdDto);
+        log.info("Test completed: registerForVisit_DataCorrect_VisitDtoReturned");
     }
 
     @Test
     void registerForVisit_VisitNotAvailable_ExceptionThrown() {
+        log.info("Starting test: registerForVisit_VisitNotAvailable_ExceptionThrown");
         PatientIdDto patientIdDto = new PatientIdDto(2L);
 
         FeignException exceptionMock = mock(FeignException.NotFound.class);
@@ -64,5 +69,6 @@ public class PatientServiceTest {
 
         assertEquals("Visit not found", exception.getMessage());
         verify(medicalClinicProxyClient).registerForVisit(3L, patientIdDto);
+        log.info("Test completed: registerForVisit_VisitNotAvailable_ExceptionThrown");
     }
 }

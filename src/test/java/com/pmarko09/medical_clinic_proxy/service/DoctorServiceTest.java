@@ -3,6 +3,7 @@ package com.pmarko09.medical_clinic_proxy.service;
 import com.pmarko09.medical_clinic_proxy.client.MedicalClinicProxyClient;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Slf4j
 public class DoctorServiceTest {
 
     MedicalClinicProxyClient medicalClinicProxyClient;
@@ -27,6 +29,7 @@ public class DoctorServiceTest {
 
     @Test
     void getAvailableVisitsForDoctor_DataCorrect_ListVisitDtoReturned() {
+        log.info("Starting test: getAvailableVisitsForDoctor_DataCorrect_ListVisitDtoReturned");
         VisitDto visitDto1 = new VisitDto(1L,
                 LocalDateTime.of(2024, 9, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 9, 22, 17, 00, 00),
@@ -54,10 +57,12 @@ public class DoctorServiceTest {
         assertEquals(visitDto2.getDoctorId(), result.get(1).getDoctorId());
         assertEquals(visitDto2.getPatientId(), result.get(1).getPatientId());
         verify(medicalClinicProxyClient).getAvailableVisitsForDoctor(5L);
+        log.info("Test completed: getAvailableVisitsForDoctor_DataCorrect_ListVisitDtoReturned");
     }
 
     @Test
     void getAvailableVisitsForDoctor_NoDoctorFound_ExceptionThrown() {
+        log.info("Starting test: getAvailableVisitsForDoctor_NoDoctorFound_ExceptionThrown");
         FeignException mockException = mock(FeignException.NotFound.class);
         when(mockException.getMessage()).thenReturn("Doctor not found");
 
@@ -69,10 +74,12 @@ public class DoctorServiceTest {
 
         assertEquals("Doctor not found", aThrows.getMessage());
         verify(medicalClinicProxyClient).getAvailableVisitsForDoctor(5L);
+        log.info("Test completed: getAvailableVisitsForDoctor_NoDoctorFound_ExceptionThrown");
     }
 
     @Test
     void getAvailableVisitsForDoctor_NoVisits_EmptyVisitDtoListReturned() {
+        log.info("Starting test: getAvailableVisitsForDoctor_NoVisits_EmptyVisitDtoListReturned");
         when(medicalClinicProxyClient.getAvailableVisitsForDoctor(4L))
                 .thenReturn(Collections.emptyList());
 
@@ -80,5 +87,6 @@ public class DoctorServiceTest {
 
         assertTrue(availableVisitsForDoctor.isEmpty());
         verify(medicalClinicProxyClient).getAvailableVisitsForDoctor(4L);
+        log.info("Test completed: getAvailableVisitsForDoctor_NoVisits_EmptyVisitDtoListReturned");
     }
 }

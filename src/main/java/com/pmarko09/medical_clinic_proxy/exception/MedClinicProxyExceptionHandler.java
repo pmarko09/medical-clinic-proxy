@@ -2,6 +2,7 @@ package com.pmarko09.medical_clinic_proxy.exception;
 
 import com.pmarko09.medical_clinic_proxy.model.dto.ErrorMessageDto;
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @RestControllerAdvice
 public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -22,6 +24,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        log.error("Bad request: {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
@@ -33,6 +36,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        log.error("Data not found: {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
@@ -44,6 +48,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        log.error("Data not found: {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
@@ -55,6 +60,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        log.error("Internal server error[feignException]: {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -66,6 +72,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        log.error("Internal server error {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -77,6 +84,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        log.error("Conflict: {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.CONFLICT);
     }
 }

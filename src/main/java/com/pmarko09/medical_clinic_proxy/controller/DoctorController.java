@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Tag(name = "Doctors", description = "Operations related to doctors and their available visits")
 @RestController
 @RequestMapping("/doctors")
@@ -31,6 +33,8 @@ public class DoctorController {
     @GetMapping("/{doctorId}/available-visits")
     public List<VisitDto> getAvailableVisitsForDoctor(@Parameter(description = "Doctor ID", required = true)
                                                       @PathVariable Long doctorId) {
+        log.info("Endpoint called: /doctors/{}/available-visits", doctorId);
+        log.info("Fetching available visits for doctor with ID: {}", doctorId);
         return doctorService.getAvailableVisitsForDoctor(doctorId);
     }
 }

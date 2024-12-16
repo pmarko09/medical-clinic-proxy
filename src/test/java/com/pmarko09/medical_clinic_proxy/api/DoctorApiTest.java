@@ -6,7 +6,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,15 +36,9 @@ public class DoctorApiTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @BeforeEach
-    public void setUp() {
-        wireMockServer.start();
-    }
-
     @AfterEach
     public void tearDown() {
         wireMockServer.resetAll();
-        wireMockServer.stop();
     }
 
     @Test

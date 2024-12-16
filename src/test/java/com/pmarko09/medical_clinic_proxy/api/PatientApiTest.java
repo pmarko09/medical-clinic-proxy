@@ -7,11 +7,9 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmarko09.medical_clinic_proxy.model.dto.PatientIdDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,18 +34,9 @@ public class PatientApiTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @BeforeEach
-    public void setUp() {
-        wireMockServer.start();
-        restTemplate = new RestTemplateBuilder()
-                .rootUri("http://localhost:8079")
-                .build();
-    }
-
     @AfterEach
     public void tearDown() {
         wireMockServer.resetAll();
-        wireMockServer.stop();
     }
 
     @Test

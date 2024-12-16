@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - med-app-network
+      - elk-network
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: user1
@@ -23,7 +23,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - med-app-network
+      - elk-network
     ports:
       - "5432:5432"
 
@@ -35,10 +35,11 @@ services:
     ports:
       - "8085:8085"
     networks:
-      - med-app-network
+      - elk-network
     environment:
       BACKEND_HOST: medical-clinic-app
       BACKEND_PORT: 8080
+      LOGSTASH_HOST: logstash
 
   pgadmin-med:
     image: dpage/pgadmin4
@@ -53,12 +54,12 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin-med
     networks:
-      - med-app-network
+      - elk-network
 
 volumes:
   postgres_data:
   pgadmin_data:
 
 networks:
-  med-app-network:
-    driver: bridge
+  elk-network:
+    external: true

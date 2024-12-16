@@ -47,6 +47,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>7.4</version>
+		</dependency>
+
+		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-spring-boot3</artifactId>
 		</dependency>
@@ -55,6 +61,11 @@
 			<groupId>io.github.openfeign</groupId>
 			<artifactId>feign-httpclient</artifactId>
 			<version>12.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 
 		<dependency>
@@ -87,6 +98,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>5.2</version>
 		</dependency>
 
 		<dependency>

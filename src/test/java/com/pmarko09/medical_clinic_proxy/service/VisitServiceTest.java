@@ -4,6 +4,7 @@ import com.pmarko09.medical_clinic_proxy.client.MedicalClinicProxyClient;
 import com.pmarko09.medical_clinic_proxy.mapper.VisitMapper;
 import com.pmarko09.medical_clinic_proxy.model.dto.AvailableVisitDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Slf4j
 public class VisitServiceTest {
 
     MedicalClinicProxyClient medicalClinicProxyClient;
@@ -32,6 +34,7 @@ public class VisitServiceTest {
 
     @Test
     void getAvailableAppointments_DataCorrect_ListAvailableVisitDtoReturned() {
+        log.info("Starting test: getAvailableAppointments_DataCorrect_ListAvailableVisitDtoReturned");
         VisitDto visitDto1 = new VisitDto();
         visitDto1.setAppointmentStartTime(LocalDateTime.of(2025, 4, 10, 12, 0, 0));
         visitDto1.setAppointmentFinishTime(LocalDateTime.of(2025, 4, 10, 13, 0, 0));
@@ -51,10 +54,12 @@ public class VisitServiceTest {
         assertEquals("dentist", result.get(0).getDoctorSpecialization());
         assertEquals(LocalDateTime.of(2025, 4, 10, 12, 0, 0), result.get(0).getAppointmentStartTime());
         assertEquals(LocalDateTime.of(2025, 4, 10, 13, 0, 0), result.get(0).getAppointmentFinishTime());
+        log.info("Test completed: getAvailableAppointments_DataCorrect_ListAvailableVisitDtoReturned");
     }
 
     @Test
     void getAvailableAppointments_NoData_ReturnedEmptyList() {
+        log.info("Starting test: getAvailableAppointments_NoData_ReturnedEmptyList");
         LocalDate appDate = LocalDate.of(2025, 4, 10);
 
         when(medicalClinicProxyClient.getAvailableAppointments("dentist", appDate))
@@ -63,10 +68,12 @@ public class VisitServiceTest {
 
         assertTrue(result.isEmpty());
         verify(medicalClinicProxyClient).getAvailableAppointments("dentist", appDate);
+        log.info("Test completed: getAvailableAppointments_NoData_ReturnedEmptyList");
     }
 
     @Test
     void getPatientVisits_DataCorrect_ListVisitDtoReturned() {
+        log.info("Starting test: getPatientVisits_DataCorrect_ListVisitDtoReturned");
         VisitDto visitDto1 = new VisitDto(1L,
                 LocalDateTime.of(2024, 9, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 9, 22, 17, 00, 00),
@@ -94,10 +101,12 @@ public class VisitServiceTest {
         assertEquals(5L, result.get(1).getDoctorId());
         assertEquals(11L, result.get(1).getPatientId());
         verify(medicalClinicProxyClient).getVisits(11L);
+        log.info("Test completed: getPatientVisits_DataCorrect_ListVisitDtoReturned");
     }
 
     @Test
     void getPatientVisits_NoData_ReturnedEmptyList() {
+        log.info("Starting test: getPatientVisits_NoData_ReturnedEmptyList");
         when(medicalClinicProxyClient.getVisits(5L))
                 .thenReturn(Collections.emptyList());
 
@@ -105,5 +114,6 @@ public class VisitServiceTest {
 
         assertTrue(result.isEmpty());
         verify(medicalClinicProxyClient).getVisits(5L);
+        log.info("Test completed: getPatientVisits_NoData_ReturnedEmptyList");
     }
 }

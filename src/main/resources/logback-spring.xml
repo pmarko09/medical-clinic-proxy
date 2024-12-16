@@ -1,0 +1,29 @@
+<configuration>
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %red([%d{yyyy-MM-dd HH:mm:ss.SSS}])
+                %highlight(%-5level)
+                [%green(%thread)]
+                %blue(%logger{36})
+                - %magenta(%msg)%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>logstash:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"application":"medical-clinic-proxy"}</customFields>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="LOGSTASH" />
+    </root>
+</configuration>

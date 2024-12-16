@@ -11,12 +11,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Tag(name = "Appointments", description = "Operations related to appointments and visits")
 @RestController
 @RequestMapping("/appointments")
@@ -37,6 +39,8 @@ public class VisitController {
             @RequestParam String specialization,
             @Parameter(description = "Date for available appointments", required = true)
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        log.info("Endpoint called: /appointments/available");
+        log.info("Fetching all available visit for mentioned day: {}", date);
         return visitService.getAvailableAppointments(specialization, date);
     }
 
@@ -49,6 +53,8 @@ public class VisitController {
     @GetMapping
     public List<VisitDto> getPatientVisits(
             @RequestParam Long patientId) {
+        log.info("Endpoint called: /appointments/{}", patientId);
+        log.info("Fetching all visits for patient with ID: {}", patientId);
         return visitService.getPatientVisits(patientId);
     }
 }

@@ -2,6 +2,7 @@ package com.pmarko09.medical_clinic_proxy.controler;
 
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import com.pmarko09.medical_clinic_proxy.service.DoctorService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Slf4j
 public class DoctorControllerTest {
 
     @Autowired
@@ -33,6 +35,7 @@ public class DoctorControllerTest {
 
     @Test
     void getAvailableVisitsForDoctor_DataCorrect_ReturnedStatus200() throws Exception {
+        log.info("Starting test: getAvailableVisitsForDoctor_DataCorrect_ReturnedStatus200");
         VisitDto visitDto1 = new VisitDto(1L,
                 LocalDateTime.of(2024, 9, 22, 16, 30, 00),
                 LocalDateTime.of(2024, 9, 22, 17, 00, 00),
@@ -59,10 +62,12 @@ public class DoctorControllerTest {
                 .andExpect(jsonPath("$[1].appointmentFinishTime").value("2024-10-22T17:00:00"))
                 .andExpect(jsonPath("$[1].doctorId").value(5L))
                 .andExpect(jsonPath("$[1].patientId").value(11L));
+        log.info("Test completed: getAvailableVisitsForDoctor_DataCorrect_ReturnedStatus200");
     }
 
     @Test
     void getAvailableVisitsForDoctor_NoData_ReturnedStatus200() throws Exception {
+        log.info("Starting test: getAvailableVisitsForDoctor_NoData_ReturnedStatus200");
         when(doctorService.getAvailableVisitsForDoctor(5L)).thenReturn(Collections.emptyList());
 
         mockMvc.perform(
@@ -73,5 +78,6 @@ public class DoctorControllerTest {
                 .andExpect(jsonPath("$").isEmpty());
 
         verify(doctorService).getAvailableVisitsForDoctor(5L);
+        log.info("Test completed: getAvailableVisitsForDoctor_NoData_ReturnedStatus200");
     }
 }
