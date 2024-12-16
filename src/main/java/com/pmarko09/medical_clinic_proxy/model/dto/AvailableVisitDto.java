@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VisitDto {
+public class AvailableVisitDto {
 
-    private Long id;
     private LocalDateTime appointmentStartTime;
     private LocalDateTime appointmentFinishTime;
-    private Long doctorId;
-    private Long patientId;
+    private String doctorSpecialization;
 }
