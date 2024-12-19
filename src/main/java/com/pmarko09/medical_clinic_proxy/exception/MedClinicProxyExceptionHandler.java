@@ -48,7 +48,7 @@ public class MedClinicProxyExceptionHandler extends ResponseEntityExceptionHandl
                 ex.getMessage(),
                 LocalDateTime.now()
         );
-        log.error("Data not found: {}", ex.getMessage());
+        log.error("Data not found (feign exception): {}", ex.getMessage());
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 

@@ -1,5 +1,6 @@
 package com.pmarko09.medical_clinic_proxy.controller;
 
+import com.pmarko09.medical_clinic_proxy.model.dto.DoctorDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.ErrorMessageDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
 import com.pmarko09.medical_clinic_proxy.service.DoctorService;
@@ -36,5 +37,26 @@ public class DoctorController {
         log.info("Endpoint called: /doctors/{}/available-visits", doctorId);
         log.info("Fetching available visits for doctor with ID: {}", doctorId);
         return doctorService.getAvailableVisitsForDoctor(doctorId);
+    }
+
+    @GetMapping("/{doctorId}")
+    public List<VisitDto> getAllVisitForDoctor(@PathVariable Long doctorId) {
+        log.info("Endpoint called: /doctors/{}", doctorId);
+        log.info("Fetching all visit for doctor ID: {}", doctorId);
+        return doctorService.getAllVisitForDoctor(doctorId);
+    }
+
+    @DeleteMapping("/{doctorId}/cancel-visit/{visitId}")
+    public void cancelVisitForDoctor(@PathVariable Long doctorId, @PathVariable Long visitId) {
+        log.info("Endpoint called: /doctors/{}/cancel-visit/{}", doctorId, visitId);
+        log.info("Cancelling visit ID: {} for doctor ID: {}", visitId, doctorId);
+        doctorService.cancelVisitForDoctor(doctorId, visitId);
+    }
+
+    @GetMapping("/")
+    public List<DoctorDto> getDoctorsWithSpecialization(@RequestParam String specialization) {
+        log.info("Endpoint called: /doctors/specialization={}", specialization);
+        log.info("Fetching all doctors with specialization={}", specialization);
+        return doctorService.getDoctorsWithSpecialization(specialization);
     }
 }
