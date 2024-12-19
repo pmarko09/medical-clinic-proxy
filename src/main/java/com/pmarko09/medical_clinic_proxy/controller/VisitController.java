@@ -3,6 +3,7 @@ package com.pmarko09.medical_clinic_proxy.controller;
 import com.pmarko09.medical_clinic_proxy.model.dto.AvailableVisitDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.ErrorMessageDto;
 import com.pmarko09.medical_clinic_proxy.model.dto.VisitDto;
+import com.pmarko09.medical_clinic_proxy.model.dto.VisitSpecTimeDto;
 import com.pmarko09.medical_clinic_proxy.service.VisitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Slf4j
@@ -51,10 +53,30 @@ public class VisitController {
     @ApiResponse(responseCode = "404", description = "Patient not found",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessageDto.class)))
     @GetMapping
-    public List<VisitDto> getPatientVisits(
-            @RequestParam Long patientId) {
+    public List<VisitDto> getPatientVisits(@RequestParam Long patientId) {
         log.info("Endpoint called: /appointments/{}", patientId);
         log.info("Fetching all visits for patient with ID: {}", patientId);
         return visitService.getPatientVisits(patientId);
+    }
+
+    @GetMapping("/doctor/timeslot")
+    public List<VisitSpecTimeDto> getVisitsBySpecializationAndTimeslot(
+            @RequestParam String specialization,
+            @RequestParam LocalTime visitStart,
+            @RequestParam LocalTime visitFinish) {
+        log.info("Endpoint called: appointments/doctor/{}/{}/{}", specialization, visitStart, visitFinish);
+        log.info("Fetching visits by selected specialization: {} and during mentioned time slot between: {} and {}",
+                specialization, visitStart, visitFinish);
+        return visitService.getVisitsBySpecializationAndTimeslot(specialization, visitStart, visitFinish);
+    }
+
+    @GetMapping("/timeslot")
+    public List<VisitSpecTimeDto> getAvailableAppsByTimeSlot(
+            @RequestParam(required = false) String specialization,
+            @RequestParam LocalTime visitStart,
+            @RequestParam LocalTime visitFinish) {
+        log.info("Endpoint called: appointments/timeslot/{}/{}/{}", specialization, visitStart, visitFinish);
+        log.info("Fetching visits by during mentioned time slot between: {} and {}", visitStart, visitFinish);
+        return visitService.getAvailableAppsByTimeSlot(specialization, visitStart, visitFinish);
     }
 }

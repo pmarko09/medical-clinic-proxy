@@ -1,6 +1,5 @@
 package com.pmarko09.medical_clinic_proxy.config;
 
-import com.pmarko09.medical_clinic_proxy.exception.DataNotFoundException;
 import feign.FeignException;
 import feign.Response;
 import feign.RetryableException;
@@ -20,9 +19,6 @@ public class CustomErrorDecoder implements ErrorDecoder {
                     response.request().httpMethod(),
                     0L,
                     response.request());
-        }
-        if (status == 404) {
-            return new DataNotFoundException();
         }
         return errorDecoder.decode(methodKey, response);
     }
